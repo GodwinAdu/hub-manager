@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hub Manager
+
+A multi-tenant organization management platform built with Next.js, TypeScript, and MongoDB.
+
+## Features
+
+- **Multi-tenant Architecture**: Organization-based routing with isolated dashboards
+- **Authentication**: JWT-based auth with MFA, magic links, and trusted devices
+- **User Management**: Role-based access control with email/phone verification
+- **Organization Management**: Create and manage organizations with custom modules
+- **Secure Sessions**: HTTP-only cookies with refresh token rotation
+
+## Tech Stack
+
+- **Framework**: Next.js 16.1.6 (Turbopack)
+- **Language**: TypeScript
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT tokens, bcrypt password hashing
+- **Validation**: Zod schemas with React Hook Form
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI primitives
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ 
+- MongoDB instance
+- npm/yarn/pnpm/bun
+
+### Installation
+
+```bash
+npm install
+```
+
+### Environment Variables
+
+Create `.env.local`:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_ACCESS_SECRET=your_access_token_secret
+JWT_REFRESH_SECRET=your_refresh_token_secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+hub-manager/
+├── app/
+│   ├── (auth)/              # Authentication routes
+│   ├── (organisation)/      # Organization-specific routes
+│   ├── api/                 # API endpoints
+│   └── dashboard/           # Dashboard redirect
+├── components/
+│   └── sidebar/             # Sidebar components
+├── lib/
+│   ├── actions/             # Server actions
+│   ├── helpers/             # Utility functions
+│   └── models/              # Mongoose models
+└── providers/               # React context providers
+```
 
-## Learn More
+## Authentication Flow
 
-To learn more about Next.js, take a look at the following resources:
+1. User signs in with email/password or magic link
+2. MFA verification if enabled (with trusted device support)
+3. JWT tokens stored in HTTP-only cookies
+4. Redirect to `/{organizationId}/dashboard/{userId}`
+5. Session validated on protected routes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `POST /api/auth/logout` - Clear auth cookies and logout
 
-## Deploy on Vercel
+## Key Models
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **User**: Authentication, roles, verification status
+- **Organization**: Multi-tenant organization data
+- **Session**: In-memory cache with 15-minute TTL
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Development
+
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
+
+## Deployment
+
+Deploy on [Vercel](https://vercel.com):
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/hub-manager)
+
+See [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying) for details.
+
+## License
+
+MIT
