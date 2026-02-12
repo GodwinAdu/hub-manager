@@ -4,14 +4,7 @@ import { useAuth } from "@/providers/auth-provider"
 import type React from "react"
 import { useState } from "react"
 
-
-interface ForgotPasswordFormProps {
-    onSuccess?: () => void
-    onError?: (error: string) => void
-    className?: string
-}
-
-export function ForgotPasswordForm({ onSuccess, onError, className = "" }: ForgotPasswordFormProps) {
+export default function ForgotPasswordPage() {
     const { forgotPassword } = useAuth()
     const [email, setEmail] = useState("")
     const [loading, setLoading] = useState(false)
@@ -25,12 +18,8 @@ export function ForgotPasswordForm({ onSuccess, onError, className = "" }: Forgo
             const result = await forgotPassword(email)
             if (result.success) {
                 setSent(true)
-                onSuccess?.()
-            } else {
-                onError?.(result.error || "Failed to send reset email")
             }
         } catch (error) {
-            onError?.("Network error")
         } finally {
             setLoading(false)
         }
@@ -38,22 +27,12 @@ export function ForgotPasswordForm({ onSuccess, onError, className = "" }: Forgo
 
     if (sent) {
         return (
-            <div className={`text-center space-y-4 ${className}`}>
-                <div className="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                    </svg>
-                </div>
-                <h3 className="text-lg font-medium text-gray-900">Check your email</h3>
-                <p className="text-sm text-gray-600">
-                    We've sent a password reset link to <strong>{email}</strong>. Click the link to reset your password.
+            <div className="text-center space-y-4">
+                <h3 className="text-lg font-medium">Check your email</h3>
+                <p className="text-sm">
+                    We've sent a password reset link to <strong>{email}</strong>.
                 </p>
-                <button onClick={() => setSent(false)} className="text-sm text-blue-600 hover:text-blue-500">
+                <button onClick={() => setSent(false)} className="text-sm">
                     Send another email
                 </button>
             </div>
@@ -61,16 +40,16 @@ export function ForgotPasswordForm({ onSuccess, onError, className = "" }: Forgo
     }
 
     return (
-        <form onSubmit={handleSubmit} className={`space-y-4 ${className}`}>
+        <form onSubmit={handleSubmit} className="space-y-4">
             <div className="text-center">
-                <h3 className="text-lg font-medium text-gray-900">Forgot Password</h3>
-                <p className="mt-2 text-sm text-gray-600">
+                <h3 className="text-lg font-medium">Forgot Password</h3>
+                <p className="mt-2 text-sm">
                     Enter your email address and we'll send you a link to reset your password.
                 </p>
             </div>
 
             <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="email" className="block text-sm font-medium">
                     Email address
                 </label>
                 <input
@@ -79,7 +58,7 @@ export function ForgotPasswordForm({ onSuccess, onError, className = "" }: Forgo
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    className="mt-1 block w-full px-3 py-2 border rounded-md"
                     required
                 />
             </div>
@@ -87,7 +66,7 @@ export function ForgotPasswordForm({ onSuccess, onError, className = "" }: Forgo
             <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+                className="w-full py-2 px-4 rounded-md text-sm font-medium disabled:opacity-50"
             >
                 {loading ? "Sending..." : "Send Reset Link"}
             </button>

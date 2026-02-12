@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -18,40 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "Hub Manager",
-    template: "%s · Hub Manager",
-  },
+  title: "Hub Manager",
   description: "A powerful tool to manage your projects and teams efficiently.",
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "16x16", type: "image/x-icon" },
-      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
-    ],
-    apple: "/apple-icon.png",
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Hub Manager",
-  },
-  openGraph: {
-    title: "Hub Manager",
-    description: "Manages congregational activities",
-    type: "website",
-    locale: "en-US",
-    siteName: "Hub Manager",
-  },
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-  themeColor: "#000000",
-  viewportFit: "cover",
 };
 
 export default function RootLayout({
