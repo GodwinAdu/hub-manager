@@ -9,10 +9,7 @@ compress: isProd - Enables gzip compression only in production
 reactStrictMode: true - Enables React's strict mode for better error detection
 typescript.ignoreBuildErrors: true - Allows builds to complete even with TypeScript errors (not recommended for production)
 images.remotePatterns - Allows loading images from utfs.io domain (likely UploadThing CDN)
-Webpack Customization:
-asyncWebAssembly: true - Enables WebAssembly support
-layers: true - Enables webpack layers feature
-Module rule for .m?js files - Fixes compatibility issues with ES modules, specifically for the shikiji library (syntax highlighter)
+
 Export:
 In production: applies both PWA and bundle analyzer wrappers
 In development: uses plain config (no PWA/analyzer overhead)
@@ -21,13 +18,9 @@ This setup optimizes for production builds while keeping development fast and en
 
 
 import withPWAInit from "@ducanh2912/next-pwa";
-import analyzer from '@next/bundle-analyzer';
 const isProd = process.env.NODE_ENV === 'production';
 
 
-const withBundleAnalyzer = analyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
 const withPWA = withPWAInit({
   dest: 'public',
   register: true,
@@ -55,4 +48,4 @@ const nextConfig = {
 
 };
 
-export default isProd ? withBundleAnalyzer(withPWA(nextConfig)) : nextConfig
+export default isProd ? withPWA(nextConfig) : nextConfig
