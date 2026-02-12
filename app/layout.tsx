@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import NextTopLoader from "nextjs-toploader";
+import { RoleProvider } from "@/contexts/role-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,29 +34,31 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NextTopLoader
-              color="#2563eb"
-              initialPosition={0.08}
-              crawlSpeed={200}
-              height={4}
-              crawl={true}
-              showSpinner={true}
-              easing="ease"
-              speed={200}
-              shadow="0 0 10px #2563eb, 0 0 5px #2563eb"
-              zIndex={1600}
-            />
-            <TooltipProvider>
-              <Toaster richColors />
-              {children}
-            </TooltipProvider>
-          </ThemeProvider>
+          <RoleProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NextTopLoader
+                color="#2563eb"
+                initialPosition={0.08}
+                crawlSpeed={200}
+                height={4}
+                crawl={true}
+                showSpinner={true}
+                easing="ease"
+                speed={200}
+                shadow="0 0 10px #2563eb, 0 0 5px #2563eb"
+                zIndex={1600}
+              />
+              <TooltipProvider>
+                <Toaster richColors />
+                {children}
+              </TooltipProvider>
+            </ThemeProvider>
+          </RoleProvider>
         </AuthProvider>
       </body>
     </html>

@@ -211,7 +211,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
             if (!refreshTokenValue) return false
 
-            const response = await fetch(`/auth/refresh`, {
+            const response = await fetch(`/api/auth/refresh`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ refreshToken: refreshTokenValue }),

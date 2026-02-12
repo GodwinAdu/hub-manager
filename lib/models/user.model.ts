@@ -22,6 +22,7 @@ interface IUser extends Document {
     emergencyContact?: object
     currentAddress?: string
     permanentAddress?: string
+    lineManagerId?: Schema.Types.ObjectId
     role: string
     identification: {
         idCardType?: string,
@@ -127,6 +128,11 @@ const UserSchema = new Schema<IUser>({
         type: Schema.Types.ObjectId,
         ref: "Organization",
         required: true
+    },
+    lineManagerId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: null
     },
     position:{
         type:String

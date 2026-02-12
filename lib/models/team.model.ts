@@ -1,8 +1,9 @@
 import { Schema, model, models, Model } from "mongoose";
 
-export interface IDepartment  extends Document {
+export interface ITeam  extends Document {
     organizationId: Schema.Types.ObjectId
     name: string
+    members: Schema.Types.ObjectId[]
     createdBy?: Schema.Types.ObjectId | null
     modifiedBy?: Schema.Types.ObjectId | null
     deletedBy?: Schema.Types.ObjectId | null
@@ -11,7 +12,7 @@ export interface IDepartment  extends Document {
     action_type?: string
 }
 
-const DepartmentSchema = new Schema<IDepartment>({
+const TeamSchema = new Schema<ITeam>({
     organizationId:{
         type: Schema.Types.ObjectId,
         ref: "Organization",
@@ -23,6 +24,10 @@ const DepartmentSchema = new Schema<IDepartment>({
         trim: true,
         index: true,
     },
+    members: [{
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    }],
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: "User",
@@ -55,8 +60,8 @@ const DepartmentSchema = new Schema<IDepartment>({
     versionKey: false, // Removes the `__v` version key
 });
 
-type DepartmentModel = Model<IDepartment>
+type TeamModel = Model<ITeam>
 // Create or retrieve the model
-const Department:DepartmentModel = models.Department ?? model<IDepartment>("Department", DepartmentSchema);
+const Team:TeamModel = models.Team ?? model<ITeam>("Team", TeamSchema);
 
-export default Department;
+export default Team;
