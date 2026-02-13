@@ -631,7 +631,12 @@ export default function RegistrationForm() {
                                         </FormItem>
                                     )}
                                 />
-
+                                <div className="mt-4 text-center text-sm">
+                                    Already have an account?{" "}
+                                    <Link href="/sign-in" className="underline">
+                                        Sign in
+                                    </Link>
+                                </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" className="w-full md:w-auto">
                                         Continue <ChevronRight className="ml-2 h-4 w-4" />
