@@ -6,8 +6,21 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import React from 'react'
 import { columns } from './_components/column'
+import { currentUser } from '@/lib/helpers/session'
+import { getAllStaff } from '@/lib/actions/staff.action'
+import { currentUserRole } from '@/lib/helpers/get-user-role';
+import { redirect } from 'next/navigation';
 
-const page = () => {
+
+const page = async () => {
+  const user = await currentUser();
+  
+    if (!user) redirect("/");
+  
+    const role = await currentUserRole();
+  
+    const data = await getAllStaff() || []
+  
   return (
     <>
     <div className="flex justify-between items-center">
@@ -16,7 +29,7 @@ const page = () => {
     </div>
     <Separator />
     <div className="py-4">
-        <DataTable searchKey='' columns={columns} data={[]} />
+        <DataTable searchKey='' columns={columns} data={data} />
     </div>
     </>
   )

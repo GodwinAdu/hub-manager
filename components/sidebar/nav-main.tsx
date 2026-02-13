@@ -406,7 +406,7 @@ export function NavMain({ role, school }: NavMainProps) {
         },
         {
           title: "Teams & Clubs",
-          url: `/${organizationId}/dashboard/${userId}/manage-students/manage-student`,
+          url: `/${organizationId}/dashboard/${userId}/users/teams`,
           icon: Users,
           // roleField: "manageStudent",
         },

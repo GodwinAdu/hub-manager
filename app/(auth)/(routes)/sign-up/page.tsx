@@ -1,5 +1,6 @@
 import React from "react";
 import RegistrationForm from "./_components/register-form";
+import Link from "next/link";
 
 const page = () => {
   return (

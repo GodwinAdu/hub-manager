@@ -410,9 +410,9 @@ export default function RegistrationForm() {
                 <div className="flex items-center justify-center h-12 w-12 rounded-full bg-primary/10">
                     <School className="h-6 w-6 text-primary" />
                 </div>
-                <h1 className="text-3xl font-bold  text-foreground">CampusIQ Sign up</h1>
+                <h1 className="text-3xl font-bold  text-foreground">Hub Manager Sign up</h1>
                 <p className="text-muted-foreground max-w-md">
-                    Complete the registration process to set up your school management system
+                    Complete the registration process to set up your Hub Manager
                 </p>
             </div>
 
@@ -427,7 +427,7 @@ export default function RegistrationForm() {
                             >
                                 <Building2 className="h-4 w-4" />
                             </div>
-                            <span className="text-xs mt-1">School</span>
+                            <span className="text-xs mt-1">Hub</span>
                         </div>
                         <div className={`flex flex-col items-center ${step >= 2 ? "text-primary" : "text-muted-foreground"}`}>
                             <div
@@ -473,7 +473,7 @@ export default function RegistrationForm() {
                                             <FormItem>
                                                 <FormLabel>Name*</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Westview High School" {...field} />
+                                                    <Input placeholder="hapa hub" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -501,7 +501,7 @@ export default function RegistrationForm() {
                                             <FormItem>
                                                 <FormLabel>Phone Number*</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="+1 (555) 123-4567" {...field} />
+                                                    <Input placeholder="+233 24 555 5555" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -631,7 +631,12 @@ export default function RegistrationForm() {
                                         </FormItem>
                                     )}
                                 />
-
+                                <div className="mt-4 text-center text-sm">
+                                    Already have an account?{" "}
+                                    <Link href="/sign-in" className="underline">
+                                        Sign in
+                                    </Link>
+                                </div>
                                 <div className="flex justify-end">
                                     <Button type="submit" className="w-full md:w-auto">
                                         Continue <ChevronRight className="ml-2 h-4 w-4" />

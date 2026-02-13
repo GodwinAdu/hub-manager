@@ -3,11 +3,13 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
     Edit,
     Trash2,
     Eye,
-    Building2,
+    Users,
+    UserPlus,
     Calendar,
     CheckCircle2,
     AlertCircle
@@ -15,11 +17,12 @@ import {
 import { CellAction } from "@/components/table/cell-action";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import Link from "next/link";
 
-interface Department {
+interface Team {
     _id: string;
     name: string;
-    organizationId: string;
+    members: any[];
     createdBy?: {
         _id: string;
         fullName: string;
@@ -29,36 +32,57 @@ interface Department {
     del_flag: boolean;
     createdAt: string;
     updatedAt: string;
-    action_type?: string;
-    [key: string]: any;
+    [key: string]: any; 
 }
 
 const handleDelete = async (id: string): Promise<void> => {
     try {
-        // await deleteDepartment(id);
-        toast.success("Department deleted successfully");
+        // await deleteTeam(id);
+        toast.success("Team deleted successfully");
         window.location.reload();
     } catch (error) {
         console.error("Delete error:", error);
-        toast.error("Failed to delete department");
+        toast.error("Failed to delete team");
         throw error;
     }
 }
 
-export const columns: ColumnDef<Department>[] = [
+export const columns: ColumnDef<Team>[] = [
     {
         accessorKey: "name",
-        header: "Department Name",
+        header: "Team Name",
         cell: ({ row }) => {
-            const department = row.original;
+            const team = row.original;
             return (
                 <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                        <Building2 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex flex-col">
-                        <span className="font-medium">{department.name}</span>
+                        <span className="font-medium">{team.name}</span>
                        
+                    </div>
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "members",
+        header: "Members",
+        cell: ({ row }) => {
+            const team = row.original;
+            const memberCount = team.members?.length || 0;
+            
+            return (
+                <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-900">
+                        <Users className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="font-medium">{memberCount}</span>
+                        <span className="text-xs text-muted-foreground">
+                            {memberCount === 1 ? 'member' : 'members'}
+                        </span>
                     </div>
                 </div>
             );
@@ -68,8 +92,8 @@ export const columns: ColumnDef<Department>[] = [
         accessorKey: "createdAt",
         header: "Created",
         cell: ({ row }) => {
-            const department = row.original;
-            const createdDate = new Date(department.createdAt);
+            const team = row.original;
+            const createdDate = new Date(team.createdAt);
             
             return (
                 <div className="flex items-center gap-2">
@@ -110,9 +134,9 @@ export const columns: ColumnDef<Department>[] = [
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => {
-            const department = row.original;
+            const team = row.original;
             
-            if (department.del_flag) {
+            if (team.del_flag) {
                 return (
                     <Badge variant="destructive" className="gap-1">
                         <AlertCircle className="h-3 w-3" />
@@ -121,7 +145,7 @@ export const columns: ColumnDef<Department>[] = [
                 );
             }
             
-            if (department.mod_flag) {
+            if (team.mod_flag) {
                 return (
                     <Badge variant="secondary" className="gap-1">
                         <AlertCircle className="h-3 w-3" />
@@ -142,31 +166,39 @@ export const columns: ColumnDef<Department>[] = [
         id: "actions",
         header: "Actions",
         cell: ({ row }) => {
-            const department = row.original;
+            const team = row.original;
             return (
-                <CellAction
-                    data={department}
-                    onDelete={handleDelete}
-                    actions={[
-                        {
-                            label: "View Details",
-                            type: "view",
-                            href: `/dashboard/departments/${department._id}`,
-                            icon: <Eye className="h-4 w-4" />,
-                        },
-                        {
-                            label: "Edit Department",
-                            type: "edit",
-                            href: `/dashboard/departments/${department._id}/edit`,
-                            icon: <Edit className="h-4 w-4" />,
-                        },
-                        {
-                            label: "Delete",
-                            type: "delete",
-                            icon: <Trash2 className="h-4 w-4" />,
-                        },
-                    ]}
-                />
+                <div className="flex items-center gap-2">
+                    <Link href={`/dashboard/teams/${team._id}/add-members`}>
+                        <Button variant="outline" size="sm" className="gap-1">
+                            <UserPlus className="h-4 w-4" />
+                            Add Members
+                        </Button>
+                    </Link>
+                    <CellAction
+                        data={team}
+                        onDelete={handleDelete}
+                        actions={[
+                            {
+                                label: "View Details",
+                                type: "view",
+                                href: `/dashboard/teams/${team._id}`,
+                                icon: <Eye className="h-4 w-4" />,
+                            },
+                            {
+                                label: "Edit Team",
+                                type: "edit",
+                                href: `/dashboard/teams/${team._id}/edit`,
+                                icon: <Edit className="h-4 w-4" />,
+                            },
+                            {
+                                label: "Delete",
+                                type: "delete",
+                                icon: <Trash2 className="h-4 w-4" />,
+                            },
+                        ]}
+                    />
+                </div>
             );
         }
     },
