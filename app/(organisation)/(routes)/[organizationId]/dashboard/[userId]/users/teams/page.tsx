@@ -17,10 +17,7 @@ const page = async () => {
   const role = await currentUserRole();
 
    const data = await getAllTeams() || []
-
-   console.log("data", data)  
-    
-  console.log("departments data", data)
+    console.log("data", data) 
   return (
     <>
       <div className="flex justify-between items-center">

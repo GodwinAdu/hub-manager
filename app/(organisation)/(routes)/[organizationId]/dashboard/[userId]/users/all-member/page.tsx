@@ -21,7 +21,6 @@ const page = async () => {
   
     const data = await getAllStaff() || []
   
-    console.log("departments data", data)
   return (
     <>
     <div className="flex justify-between items-center">
