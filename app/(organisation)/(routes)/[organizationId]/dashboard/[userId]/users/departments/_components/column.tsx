@@ -73,7 +73,7 @@ export const columns: ColumnDef<any>[] = [
                     onDelete={handleDelete}
                     actions={[
                         {
-                            label: "Edit Profile",
+                            label: "Edit",
                             type: "edit",
                             href: `/dashboard/members/${member._id}/edit`,
                             icon: <Edit className="h-4 w-4" />,
